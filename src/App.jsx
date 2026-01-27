@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalTambah from './Component/ModalTambah.jsx';
 import ModalEdit from './Component/ModalEdit.jsx';
 import ModalHapus from './Component/ModalHapus.jsx';
 import "./App.css";
 
 function App() {
-  const [buku, setBuku] = useState([
-    { id: 1, judul: 'Manggos', penulis: 'Adit', diterbitkan: '2004' },
-    { id: 2, judul: 'How To Be Normal', penulis: 'Budi', diterbitkan: '2005' },
-  ])
+  const [buku, setBuku] = useState([]);
+  const getBuku = async () => {
+    const res = await fetch("http://localhost:5000/api/buku");
+    const data = await res.json();
+    setBuku(data);
+  };
+
+  useEffect(() => {
+    getBuku();
+  }, []);
+  const [hapusId, setHapusId] = useState(null);
   const [isTambahOpen, setIsTambahOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isHapusOpen, setIsHapusOpen] = useState(false);
@@ -22,6 +29,17 @@ function App() {
     setSelectedBuku(null);
   };
 
+  const handleDeleteBuku = async () => {
+    if (selectedBuku) {
+      await fetch(`http://localhost:5000/api/buku/${selectedBuku.id}`, {
+        method: "DELETE"
+      });
+      getBuku();
+      setIsHapusOpen(false);
+      setSelectedBuku(null);
+    }
+  };
+
   return (
     <div className='p-4 space-y-4'>
       <h1 className="text-2xl font-bold flex justify-center">Daftar Buku</h1>
@@ -30,7 +48,7 @@ function App() {
           onClick={() => setIsTambahOpen(true)}>
           Tambah Buku
         </button>
-        <ModalTambah isOpen={isTambahOpen} onClose={() => setIsTambahOpen(false)} ></ModalTambah>
+        <ModalTambah isOpen={isTambahOpen} onClose={() => setIsTambahOpen(false)} onSuccess={getBuku}></ModalTambah>
       </div>
       <div className='overflow-x-auto'>
         <div>
@@ -39,7 +57,7 @@ function App() {
               <tr>
                 <th className="border border-gray-300 px-4 py-2">ID</th>
                 <th className="border border-gray-300 px-4 py-2">Judul</th>
-                <th className="border border-gray-300 px-4 py-2">Penulis</th>
+                <th className="border border-gray-300 px-4 py-2">Pembuat</th>
                 <th className="border border-gray-300 px-4 py-2">Diterbitkan</th>
                 <th className="border border-gray-300 px-4 py-2">Aksi</th>
               </tr>
@@ -49,8 +67,8 @@ function App() {
                 <tr key={item.id}>
                   <td className="border border-gray-300 px-4 py-3 text-center">{item.id}</td>
                   <td className="border border-gray-300 px-4 py-2">{item.judul}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.penulis}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.diterbitkan}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.pembuat}</td>
+                  <td className="border border-gray-300 px-4 py-2">{item.diterbitkan?.slice(0, 10)}</td>
                   <td className="border border-gray-300 px-4 py-2 flex justify-center">
                     <button className="bg-blue-500 text-white px-2 py-1 rounded-md mr-2"
                       onClick={() => {
@@ -58,18 +76,16 @@ function App() {
                         setIsEditOpen(true);
                       }}>
                       Edit
-                      </button>
-                    <ModalEdit isOpen={isEditOpen} onClose={() => setIsEditOpen(false)}
-                      selectedBuku={selectedBuku}
-                      onUpdateBuku={handleUpdateBuku}>
-
-                      </ModalEdit>
-                    <button className="bg-red-500 text-white px-2 py-1 rounded-md"
-                    onClick={() => setIsHapusOpen(true)}>
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-2 py-1 rounded-md"
+                      onClick={() => {
+                        setHapusId(item.id);
+                        setIsHapusOpen(true);
+                      }}
+                    >
                       Hapus
                     </button>
-                    <ModalHapus isOpen={isHapusOpen} onClose={() => setIsHapusOpen(false)} >
-                    </ModalHapus>
                   </td>
                 </tr>
               ))}
@@ -77,6 +93,22 @@ function App() {
           </table>
         </div>
       </div>
+      <ModalEdit isOpen={isEditOpen} onClose={() => setIsEditOpen(false)}
+        selectedBuku={selectedBuku}
+        onUpdateBuku={handleUpdateBuku}>
+      </ModalEdit>
+      <ModalHapus
+        isOpen={isHapusOpen}
+        onClose={() => setIsHapusOpen(false)}
+        onConfirm={async () => {
+          await fetch(`http://localhost:5000/api/buku/${hapusId}`, {
+            method: "DELETE"
+          });
+          setIsHapusOpen(false);
+          getBuku();
+        }}
+      />
+
     </div>
   );
 }

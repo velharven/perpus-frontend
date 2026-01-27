@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const ModalEdit = ({ isOpen, onClose, selectedBuku, onUpdateBuku }) => {
-    const [form, setForm] = useState({
-        id: '',
-        judul: '',
-        penulis: '',
-        diterbitkan: '',
-    });
+    const [form, setForm] = useState({});
 
     useEffect(() => {
         if (selectedBuku) {
@@ -22,13 +17,24 @@ const ModalEdit = ({ isOpen, onClose, selectedBuku, onUpdateBuku }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        await fetch(`http://localhost:5000/api/buku/${form.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                judul: form.judul,
+                pembuat: form.pembuat,
+                diterbitkan: form.diterbitkan
+            })
+        });
+
         onUpdateBuku(form);
         onClose();
     };
 
-if (!isOpen || !selectedBuku) return null;
+    if (!isOpen || !selectedBuku) return null;
 
 
     return (
@@ -44,8 +50,8 @@ if (!isOpen || !selectedBuku) return null;
                         <input type="text" className='w-full border border-gray-300 px-3 py-2 rounded-md' name='judul' value={form.judul} onChange={handleChange} />
                     </div>
                     <div>
-                        <label className='block mb-1 font-medium'>Author</label>
-                        <input type="text" className='w-full border border-gray-300 px-3 py-2 rounded-md' name='penulis' value={form.penulis} onChange={handleChange} />
+                        <label className='block mb-1 font-medium'>Pembuat</label>
+                        <input type="text" className='w-full border border-gray-300 px-3 py-2 rounded-md' name='pembuat' value={form.pembuat} onChange={handleChange} />
                     </div>
                     <div>
                         <label className='block mb-1 font-medium'>Tanggal Diterbitkan</label>
