@@ -44,7 +44,7 @@ const ModalTambah = ({ isOpen, onClose, onSuccess }) => {
               <label className='block mb-1 font-medium'>Tanggal Diterbitkan</label>
               <input type="date" className='w-full border border-gray-300 px-3 py-2 rounded-md' value={form.diterbitkan} onChange={(e) => setForm({...form, diterbitkan: e.target.value})} />
             </div>
-            <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded-md'>
+            <button type="submit" className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700'>
               Simpan
             </button>
           </form>

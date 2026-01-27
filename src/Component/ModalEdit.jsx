@@ -57,7 +57,7 @@ const ModalEdit = ({ isOpen, onClose, selectedBuku, onUpdateBuku }) => {
                         <label className='block mb-1 font-medium'>Tanggal Diterbitkan</label>
                         <input type="date" className='w-full border border-gray-300 px-3 py-2 rounded-md' name='diterbitkan' value={form.diterbitkan} onChange={handleChange} />
                     </div>
-                    <button type="submit" className='bg-green-500 text-white px-4 py-2 rounded-md'>
+                    <button type="submit" className='bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700'>
                         Simpan Perubahan
                     </button>
                 </form>

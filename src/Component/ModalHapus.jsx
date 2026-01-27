@@ -13,10 +13,10 @@ const ModalHapus = ({ isOpen, onClose, onConfirm }) => {
                 </div>
                 <p className='mb-4'>Apakah Anda yakin ingin menghapus buku ini?</p>
                 <div className='flex justify-end space-x-2'>
-                    <button onClick={onClose} className='bg-gray-500 text-white px-4 py-2 rounded-md'>
+                    <button onClick={onClose} className='bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-700'>
                         Batal
                     </button>
-                    <button onClick={onConfirm} className='bg-red-500 text-white px-4 py-2 rounded-md'>
+                    <button onClick={onConfirm} className='bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-700'>
                         Hapus
                     </button>
                 </div>

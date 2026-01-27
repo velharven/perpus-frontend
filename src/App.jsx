@@ -15,11 +15,12 @@ function App() {
   useEffect(() => {
     getBuku();
   }, []);
-  const [hapusId, setHapusId] = useState(null);
+  
   const [isTambahOpen, setIsTambahOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isHapusOpen, setIsHapusOpen] = useState(false);
   const [selectedBuku, setSelectedBuku] = useState(null);
+  const [hapusId, setHapusId] = useState(null);
 
   const handleUpdateBuku = (updatedBuku) => {
     const newBukuList = buku.map((buku) =>
@@ -29,22 +30,11 @@ function App() {
     setSelectedBuku(null);
   };
 
-  const handleDeleteBuku = async () => {
-    if (selectedBuku) {
-      await fetch(`http://localhost:5000/api/buku/${selectedBuku.id}`, {
-        method: "DELETE"
-      });
-      getBuku();
-      setIsHapusOpen(false);
-      setSelectedBuku(null);
-    }
-  };
-
   return (
     <div className='p-4 space-y-4'>
       <h1 className="text-2xl font-bold flex justify-center">Daftar Buku</h1>
       <div className='flex justify-end'>
-        <button className='bg-green-500 text-white px-4 py-2 rounded-md '
+        <button className='bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700'
           onClick={() => setIsTambahOpen(true)}>
           Tambah Buku
         </button>
@@ -70,7 +60,7 @@ function App() {
                   <td className="border border-gray-300 px-4 py-2">{item.pembuat}</td>
                   <td className="border border-gray-300 px-4 py-2">{item.diterbitkan?.slice(0, 10)}</td>
                   <td className="border border-gray-300 px-4 py-2 flex justify-center">
-                    <button className="bg-blue-500 text-white px-2 py-1 rounded-md mr-2"
+                    <button className="bg-blue-500 text-white px-2 py-1 rounded-md mr-2 hover:bg-blue-700"
                       onClick={() => {
                         setSelectedBuku(item);
                         setIsEditOpen(true);
@@ -78,7 +68,7 @@ function App() {
                       Edit
                     </button>
                     <button
-                      className="bg-red-500 text-white px-2 py-1 rounded-md"
+                      className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-700"
                       onClick={() => {
                         setHapusId(item.id);
                         setIsHapusOpen(true);
