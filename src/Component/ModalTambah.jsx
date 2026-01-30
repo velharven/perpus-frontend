@@ -12,7 +12,7 @@ const ModalTambah = ({ isOpen, onClose, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:5000/api/buku", {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/buku`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form)

@@ -7,7 +7,7 @@ import "./App.css";
 function App() {
   const [buku, setBuku] = useState([]);
   const getBuku = async () => {
-    const res = await fetch("http://localhost:5000/api/buku");
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/buku`);
     const data = await res.json();
     setBuku(data);
   };
@@ -91,7 +91,7 @@ function App() {
         isOpen={isHapusOpen}
         onClose={() => setIsHapusOpen(false)}
         onConfirm={async () => {
-          await fetch(`http://localhost:5000/api/buku/${hapusId}`, {
+          await fetch(`${import.meta.env.VITE_API_URL}/api/buku/${hapusId}`, {
             method: "DELETE"
           });
           setIsHapusOpen(false);

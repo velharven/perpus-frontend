@@ -20,7 +20,7 @@ const ModalEdit = ({ isOpen, onClose, selectedBuku, onUpdateBuku }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        await fetch(`http://localhost:5000/api/buku/${form.id}`, {
+        await fetch(`${import.meta.env.VITE_API_URL}/api/buku/${form.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
