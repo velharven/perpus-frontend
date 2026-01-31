@@ -43,6 +43,6 @@ cd perpus-frontend
 VITE_API_URL=http://localhost:5000
 ```
 
-### 3. Jalankan Aplikasi
+### 5. Jalankan Aplikasi
 `npm run dev`
 
