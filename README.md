@@ -33,9 +33,16 @@ git clone https://github.com/velharven/perpus-frontend.git
 cd perpus-frontend
 ```
 
-## 2. Install Depedencies
+### 2. Install Depedencies
 `npm install`
 
-## 3. Jalankan Aplikasi
+### 3. Buat file .env
+
+### 4. Konfigurasi file .env
+```bash
+VITE_API_URL=http://localhost:5000
+```
+
+### 3. Jalankan Aplikasi
 `npm run dev`
 
